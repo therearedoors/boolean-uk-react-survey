@@ -23,15 +23,16 @@ function ItemsList({ list }) {
 export default function AnswersItem({
   // Feel free to change this props names to what suits you best
   // Rememeber here we're destructuring answerItem, which is the prop name that we've passed
-  answerItem: { username, colour, timeSpent, review }
+  answerItem: { username, color, timeSpent, review }
 }) {
+  color = Object.entries(color).reduce((a,b)=>b[1]?b:a,"no rating given")
   return (
     <li>
       <article className="answer">
         <h3>{username || "Anon"} said:</h3>
         <p>
           <em>How do you rate your rubber duck colour?</em>
-          <span className="answer__line">{colour}</span>
+          <span className="answer__line">{color}</span>
         </p>
         <p>
           <em>How do you like to spend time with your rubber duck?</em>
