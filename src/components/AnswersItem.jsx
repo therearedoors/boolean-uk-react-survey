@@ -9,10 +9,11 @@ const answersSet = {
 };
 
 function ItemsList({ list }) {
+  list = Object.entries(list).filter(entry => entry[1] === true)
   return (
     <ul>
       {list.map((item) => (
-        <li>{answersSet[item]}</li>
+        <li>{answersSet[item[0]]}</li>
       ))}
     </ul>
   );
