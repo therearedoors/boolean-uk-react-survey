@@ -23,6 +23,7 @@ function Main() {
   const [open, setOpen] = useState(false); //Ignore this state
   const [formData,setForm] = useState(initialFormData)
   const [formSubmissions,setFormSubmission] = useState([])
+  const [editID,setEditID] = useState(-1)
 
   function handleInput(event){
     setForm(prev => ({...prev, [event.target.name]: event.target.value}))
@@ -33,11 +34,21 @@ function Main() {
     setForm(prev => ({...prev, [name]: {...[name], [value]: checked}}))
   }
 
+  function handleEdit(data,key){
+    setForm(()=>({...data}))
+    setEditID(key)
+  }
+
   function handleSubmit(event){
     event.preventDefault()
-    console.log(formData)
+    if (editID < 0){
     setFormSubmission(prev => [...prev, {...formData}])
-    console.log(formSubmissions)
+    }
+    else {
+      const copy = [...formSubmissions]
+      copy.splice(editID,1,{...formData})
+      setFormSubmission(copy)
+    }
     setForm(initialFormData)
   }
 
@@ -113,7 +124,7 @@ function Main() {
     <main className="main">
       <section className={`main__list ${open ? "open" : ""}`}>
         <h2>Answers list</h2>
-        <AnswersList answersList={formSubmissions}/>
+        <AnswersList answersList={formSubmissions} handleEdit={handleEdit}/>
       </section>
       <section className="main__form">
         <form onSubmit={handleSubmit} className="form">
